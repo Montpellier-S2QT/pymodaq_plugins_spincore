@@ -1,4 +1,4 @@
-pymodaq_plugins_template
+pymodaq_plugins_spincore
 ########################
 
 .. the following must be adapted to your developed package, links to pypi, github  description...
@@ -19,14 +19,11 @@ pymodaq_plugins_template
     :target: https://github.com/PyMoDAQ/pymodaq_plugins_template/actions/workflows/Test.yml
 
 
-Use this template to create a repository on your account and start the development of your own PyMoDAQ plugin!
-
-
 Authors
 =======
 
-* First Author  (myemail@xxx.org)
-* Other author (myotheremail@xxx.org)
+* First Author  (lucas.moreau-lalaux@ens-lyon.fr)
+* Other author (jessica.tournaud@umontpellier.fr)
 
 .. if needed use this field
 
@@ -49,27 +46,16 @@ Below is the list of instruments included in this plugin
 Actuators
 +++++++++
 
-* **yyy**: control of yyy actuators
-* **xxx**: control of xxx actuators
+* **PulseBlasterUSB**: control of spincore PulseBlasterUSB devices
 
 Viewer0D
 ++++++++
 
-* **yyy**: control of yyy 0D detector
-* **xxx**: control of xxx 0D detector
-
 Viewer1D
 ++++++++
 
-* **yyy**: control of yyy 1D detector
-* **xxx**: control of xxx 1D detector
-
-
 Viewer2D
 ++++++++
-
-* **yyy**: control of yyy 2D detector
-* **xxx**: control of xxx 2D detector
 
 
 PID Models
@@ -83,6 +69,6 @@ Extensions
 Installation instructions
 =========================
 
-* PyMoDAQ’s version.
-* Operating system’s version.
-* What manufacturer’s drivers should be installed to make this plugin run?
+* PyMoDAQ version 5.
+* Developped under Windows 10.
+* Drivers: spincore drivers https://www.spincore.com/support/spinapi/
