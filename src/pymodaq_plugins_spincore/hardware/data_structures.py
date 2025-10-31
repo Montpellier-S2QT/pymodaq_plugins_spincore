@@ -11,7 +11,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 import numpy.typing as npt
-from pymodaq_plugins_PulseBlaster.hardware.spinapi import (
+from pymodaq_plugins_spincore.hardware.spinapi import (
     BRANCH,
     CONTINUE,
     END_LOOP,

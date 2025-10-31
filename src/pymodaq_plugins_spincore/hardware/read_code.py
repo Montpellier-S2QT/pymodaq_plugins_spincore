@@ -7,7 +7,7 @@ and convert it to instruction sequences.
 
 import re
 
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import (
+from pymodaq_plugins_spincore.hardware.data_structures import (
     Instruction,
     InstructionSequence,
     Opcode,

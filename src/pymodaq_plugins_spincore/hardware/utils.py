@@ -7,9 +7,9 @@ and hardware detection.
 
 from typing import List
 
-from pymodaq_plugins_PulseBlaster.hardware.spinapi import pb_count_boards
+from pymodaq_plugins_spincore.hardware.spinapi import pb_count_boards
 
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import Signal
+from pymodaq_plugins_spincore.hardware.data_structures import Signal
 
 
 def round_to_nearest_n_ns(value: int, ns_round: int) -> int:

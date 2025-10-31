@@ -8,7 +8,7 @@ for programming instruction sequences and controlling execution.
 from typing import Sequence
 
 import numpy as np
-from pymodaq_plugins_PulseBlaster.hardware.spinapi import (
+from pymodaq_plugins_spincore.hardware.spinapi import (
     PULSE_PROGRAM,
     ns,
     pb_core_clock,
@@ -27,7 +27,7 @@ from pymodaq_plugins_PulseBlaster.hardware.spinapi import (
     pb_close,
 )
 
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import Instruction
+from pymodaq_plugins_spincore.hardware.data_structures import Instruction
 
 
 class PulseBlaster:

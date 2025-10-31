@@ -12,14 +12,14 @@ from typing import List, Optional, Tuple
 
 import tqdm
 
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import (
+from pymodaq_plugins_spincore.hardware.data_structures import (
     Instruction,
     InstructionSequence,
     Opcode,
     Pulse,
     Signal,
 )
-from pymodaq_plugins_PulseBlaster.hardware.utils import (
+from pymodaq_plugins_spincore.hardware.utils import (
     all_channels_off,
     round_to_nearest_n_ns,
 )

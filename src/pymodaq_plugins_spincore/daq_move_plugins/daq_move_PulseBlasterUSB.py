@@ -11,12 +11,12 @@ from pymodaq_utils.utils import (
     ThreadCommand,
 )  # object used to send info back to the main thread
 from pymodaq_gui.parameter import Parameter
-from pymodaq_plugins_PulseBlaster.hardware.device import PulseBlaster
-from pymodaq_plugins_PulseBlaster.hardware.generate_pulses import (
+from pymodaq_plugins_spincore.hardware.device import PulseBlaster
+from pymodaq_plugins_spincore.hardware.generate_pulses import (
     generate_repeating_pulses,
 )
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import Signal
-from pymodaq_plugins_PulseBlaster.hardware.plot_utils import plot_sequence
+from pymodaq_plugins_spincore.hardware.data_structures import Signal
+from pymodaq_plugins_spincore.hardware.plot_utils import plot_sequence
 import numpy as np
 import matplotlib.pyplot as plt
 

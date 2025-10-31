@@ -5,7 +5,7 @@ from pymodaq_utils.config import Config
 from pymodaq_utils.logger import set_logger, get_module_name
 
 # todo: replace here *pymodaq_plugins_template* by your plugin package name
-from pymodaq_plugins_PulseBlaster.utils import Config as PluginConfig
+from pymodaq_plugins_spincore.utils import Config as PluginConfig
 
 logger = set_logger(get_module_name(__file__))
 
@@ -61,7 +61,7 @@ class CustomAppTemplate(gutils.CustomApp):
         --------
         ActionManager.add_action
         """
-        raise NotImplementedError(f'You have to define actions here')
+        raise NotImplementedError(f"You have to define actions here")
 
     def connect_things(self):
         """Connect actions and/or other widgets signal to methods"""
@@ -89,7 +89,7 @@ class CustomAppTemplate(gutils.CustomApp):
         pass
 
     def value_changed(self, param):
-        """ Actions to perform when one of the param's value in self.settings is changed from the
+        """Actions to perform when one of the param's value in self.settings is changed from the
         user interface
 
         For instance:
@@ -107,7 +107,8 @@ class CustomAppTemplate(gutils.CustomApp):
 
 def main():
     from pymodaq_gui.utils.utils import mkQApp
-    app = mkQApp('CustomApp')
+
+    app = mkQApp("CustomApp")
 
     mainwindow = QtWidgets.QMainWindow()
     dockarea = gutils.DockArea()
@@ -121,5 +122,5 @@ def main():
     app.exec()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

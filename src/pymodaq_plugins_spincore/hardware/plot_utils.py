@@ -12,7 +12,7 @@ import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from pymodaq_plugins_PulseBlaster.hardware.data_structures import InstructionSequence
+from pymodaq_plugins_spincore.hardware.data_structures import InstructionSequence
 
 
 def plot_sequence(

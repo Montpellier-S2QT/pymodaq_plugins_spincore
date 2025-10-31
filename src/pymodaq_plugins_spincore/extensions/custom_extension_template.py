@@ -9,7 +9,7 @@ from pymodaq.extensions.utils import CustomExt
 
 
 # todo: replace here *pymodaq_plugins_template* by your plugin package name
-from pymodaq_plugins_PulseBlaster.utils import Config as PluginConfig
+from pymodaq_plugins_spincore.utils import Config as PluginConfig
 
 logger = set_logger(get_module_name(__file__))
 
@@ -17,9 +17,13 @@ main_config = Config()
 plugin_config = PluginConfig()
 
 # todo: modify this as you wish
-EXTENSION_NAME = 'MY_EXTENSION_NAME'  # the name that will be displayed in the extension list in the
+EXTENSION_NAME = (
+    "MY_EXTENSION_NAME"  # the name that will be displayed in the extension list in the
+)
 # dashboard
-CLASS_NAME = 'CustomExtensionTemplate'  # this should be the name of your class defined below
+CLASS_NAME = (
+    "CustomExtensionTemplate"  # this should be the name of your class defined below
+)
 
 
 # todo: modify the name of this class to reflect its application and change the name in the main
@@ -73,7 +77,7 @@ class CustomExtensionTemplate(CustomExt):
         --------
         ActionManager.add_action
         """
-        raise NotImplementedError(f'You have to define actions here')
+        raise NotImplementedError(f"You have to define actions here")
 
     def connect_things(self):
         """Connect actions and/or other widgets signal to methods"""
@@ -101,7 +105,7 @@ class CustomExtensionTemplate(CustomExt):
         pass
 
     def value_changed(self, param):
-        """ Actions to perform when one of the param's value in self.settings is changed from the
+        """Actions to perform when one of the param's value in self.settings is changed from the
         user interface
 
         For instance:
@@ -124,17 +128,18 @@ def main():
 
     app = mkQApp(EXTENSION_NAME)
     try:
-        preset_file_name = plugin_config('presets', f'preset_for_{CLASS_NAME.lower()}')
+        preset_file_name = plugin_config("presets", f"preset_for_{CLASS_NAME.lower()}")
         load_dashboard_with_preset(preset_file_name, EXTENSION_NAME)
         app.exec()
 
     except ConfigError as e:
-        messagebox(f'No entry with name f"preset_for_{CLASS_NAME.lower()}" has been configured'
-                   f'in the plugin config file. The toml entry should be:\n'
-                   f'[presets]'
-                   f"preset_for_{CLASS_NAME.lower()} = {'a name for an existing preset'}"
-                   )
+        messagebox(
+            f'No entry with name f"preset_for_{CLASS_NAME.lower()}" has been configured'
+            f"in the plugin config file. The toml entry should be:\n"
+            f"[presets]"
+            f"preset_for_{CLASS_NAME.lower()} = {'a name for an existing preset'}"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
