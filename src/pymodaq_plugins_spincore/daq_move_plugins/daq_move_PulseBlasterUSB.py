@@ -11,12 +11,8 @@ from pymodaq_utils.utils import (
     ThreadCommand,
 )  # object used to send info back to the main thread
 from pymodaq_gui.parameter import Parameter
-from pymodaq_plugins_spincore.hardware.device import PulseBlaster
-from pymodaq_plugins_spincore.hardware.generate_pulses import (
-    generate_repeating_pulses,
-)
-from pymodaq_plugins_spincore.hardware.data_structures import Signal
-from pymodaq_plugins_spincore.hardware.plot_utils import plot_sequence
+from pymodaq_plugins_spincore.hardware.pulseblaster import PulseBlaster
+from pymodaq_plugins_spincore.hardware._spinapi import SpinAPI
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -51,12 +47,6 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
     data_actuator_type = DataActuatorType.DataActuator
 
     params = [
-        # {
-        #     "title": "Address",
-        #     "name": "address",
-        #     "type": "str",
-        #     "value": "rpyc://162.38.137.194:12345/pulseblaster",
-        # },
         {
             "title": "Channel",
             "name": "channel",
@@ -82,23 +72,17 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
         -------
         float: The position obtained after scaling conversion.
         """
-        pos = DataActuator(
-            data=np.array([self.controller.status]), units=self.axis_unit
-        )
-        # if status == 2:
-        #     pos = DataActuator(data=np.array([10]), units=self.axis_unit)
-        # elif status == 0:
-        #     pos = DataActuator(data=np.array([0]), units=self.axis_unit)
-        # else:
-        #     raise ValueError("Incorrect Status:" + str(status))
+        if self.controller.running:
+            pos = DataActuator(data=np.array([1]), units=self.axis_unit)
+        else:
+            pos = DataActuator(data=np.array([0]), units=self.axis_unit)
         pos = self.get_position_with_scaling(pos)
         return pos
 
     def close(self):
         """Terminate the communication protocol"""
         if self.is_master:
-            self.controller.stop()
-            self.controller.close()
+            self.controller.shutdown()
 
     def commit_settings(self, param: Parameter):
         """Apply the consequences of a change of value in the detector settings
@@ -130,8 +114,7 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
 
         if self.is_master:  # is needed when controller is master
             self.controller = PulseBlaster(
-                board_number=self.settings.child("board_number").value(),
-                clock=self.settings.child("clock_frequency").value(),
+                clock=self.settings.child("clock_frequency").value()
             )
             initialized = True  # our class PulseBlaster in it's function __init__ already checks if it's well initialized
         else:
@@ -139,7 +122,6 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
             initialized = True
 
         info = "Connected to PulseBlaster"
-        self.controller.reset()
         return info, initialized
 
     def move_abs(self, value: DataActuator):
@@ -157,7 +139,7 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
         value = self.set_position_with_scaling(
             value
         )  # apply scaling if the user specified one
-        if value.value() == 2:
+        if value.value() == 0:
             self.controller.stop()
             self.emit_status(
                 ThreadCommand(
@@ -165,26 +147,13 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
                     [f"Channel {self.settings.child('channel').value()} OFF"],
                 )
             )
-        elif value.value() == 4:
-            print("entered if")
-            self.controller.reset()
-            On = Signal(
-                frequency=1,
-                offset=0,
-                channels=[self.settings.child("channel").value()],
-                active_high=True,
-                duty_cycle=1,
-            )
-            sequence = generate_repeating_pulses(
-                [On],
-                masking_signals=None,
-                progress=False,
-            )
-            fig, ax = plot_sequence(sequence)
-            fig.savefig(r"C:\Users\Aurore\Desktop\test.png")
-            # program the sequence on the device
-            self.controller.program(sequence=sequence.instructions)
-            # start the sequence
+        elif value.value() == 1:
+            laseron = [(1, 100)]
+            self.controller.set_channel(self.settings.child("channel").value(), laseron)
+            start = self.controller.compile_channels()
+            self.controller.add_inst(0x000000, SpinAPI.BRANCH, start, 100)
+            self.controller.program()
+            # self.controller.reset()
             self.controller.start()
             self.emit_status(
                 ThreadCommand(
