@@ -151,7 +151,7 @@ class DAQ_Move_PulseBlasterUSB(DAQ_Move_base):
             laseron = [(1, 100)]
             self.controller.set_channel(self.settings.child("channel").value(), laseron)
             start = self.controller.compile_channels()
-            self.controller.add_inst(0x000000, SpinAPI.BRANCH, start, 100)
+            self.controller.add_inst(0x000000, SpinAPI.BRANCH, start, 10)
             self.controller.program()
             # self.controller.reset()
             self.controller.start()

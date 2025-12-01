@@ -146,14 +146,17 @@ class PulseBlaster:
         #             f"Error: Invalid board number. Please enter a valid board number (0-{board_count - 1}): "
         #         )
 
-        # Initialize PulseBlaster, return error if occurs
-        if spinapi.pb_init() != 0:
-            raise PulseBlasterError(
-                f"Failed to initialize PulseBlaster board: {spinapi.pb_get_error()}"
-            )
-
-        # Set member variables
-        self.channels, self.clock, self.memory = self._match_firmware()
+        try:
+            # Set member variables
+            self.channels, self.clock, self.memory = self._match_firmware()
+        except:
+            # Initialize PulseBlaster, return error if occurs
+            if spinapi.pb_init() != 0:
+                raise PulseBlasterError(
+                    f"Failed to initialize PulseBlaster board: {spinapi.pb_get_error()}"
+                )
+            # Set member variables
+            self.channels, self.clock, self.memory = self._match_firmware()
         self.board_number = board_number
         self.queues = [[] for _ in range(self.channels)]
         self.instructions = []  # Instruction queue
@@ -181,7 +184,7 @@ class PulseBlaster:
             raise PulseBlasterError(
                 f"Failed to start PulseBlaster program: {spinapi.pb_get_error()}"
             )
-        print("PulseBlaster program has been started.")
+        # print("PulseBlaster program has been started.")
         self.running = True
 
     # Reset the PulseBlaster board
@@ -191,7 +194,7 @@ class PulseBlaster:
             raise PulseBlasterError(
                 f"Failed to reset PulseBlaster program: {spinapi.pb_get_error()}"
             )
-        print("PulseBlaster board has been reset.")
+        # print("PulseBlaster board has been reset.")
         self.running = True
 
     # Stop the PuleBlaster board
@@ -201,7 +204,7 @@ class PulseBlaster:
             raise PulseBlasterError(
                 f"Failed to stop PulseBlaster program: {spinapi.pb_get_error()}"
             )
-        print("PulseBlaster board has been stopped.")
+        # print("PulseBlaster board has been stopped.")
         self.running = False
 
     # Closes the communication with PulseBlaster
