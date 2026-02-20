@@ -343,6 +343,7 @@ class PulseBlaster:
         if num_channels == 1:
             axes = [axes]  # Ensure axes is always iterable
 
+        data = []
         for ax, channel_name in zip(axes, channels):
             time = []
             voltage = []
@@ -367,12 +368,15 @@ class PulseBlaster:
             ax.set_yticklabels(["0", "1"])
             ax.set_ylabel(channel_name)
 
+            data.append((channel_name, time, voltage))
+
         # Plot everything
         axes[-1].set_xlabel("Time (ns)")
         plt.suptitle("SpinCore Technologies Inc.")
         axes[-1].set_xlim(-0.10, max_time)
         plt.tight_layout(rect=[0.03, 0, 1, 0.95])
-        plt.show()
+        # plt.show()
+        return fig, axes, data
 
     # Compile channel patterns into instructions
     def compile_channels(self):
@@ -505,11 +509,12 @@ class PulseBlaster:
             case "33-3":
                 return (24, 500.0, 4096)
             case _:
-                print("Unrecognized firmware")
-                channels = input("Enter the number of channels on the board: ")
-                clock = input("Enter the core clock frequency of the board (MHz): ")
-                memory = input("Enter the size of the memory of the board (kB): ")
-                return (channels, clock, memory)
+                raise Exception("Unrecognized firmware")
+                # print("Unrecognized firmware")
+                # channels = input("Enter the number of channels on the board: ")
+                # clock = input("Enter the core clock frequency of the board (MHz): ")
+                # memory = input("Enter the size of the memory of the board (kB): ")
+                # return (channels, clock, memory)
 
     def exit(self):
         if self.running:
